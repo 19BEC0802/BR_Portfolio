@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 30, 41, 59;
+}
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Page-load hero animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Floating profile image ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-16px) rotate(1deg); }
+  66%       { transform: translateY(-8px) rotate(-1deg); }
+}
+
+/* ─── Cursor blink for typing effect ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── Glow pulse on profile ring & cards ─── */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(34,211,238,0.25), 0 0 60px rgba(34,211,238,0.08); }
+  50%       { box-shadow: 0 0 40px rgba(34,211,238,0.55), 0 0 80px rgba(34,211,238,0.20); }
+}
+
+/* ─── Shimmer gradient text ─── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ─── Orbit ring around avatar ─── */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(180px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
+}
+@keyframes orbitReverse {
+  from { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+  to   { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+}
+
+/* ─── Number count-up entrance ─── */
+@keyframes countIn {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ─── Scroll-reveal base ─── */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+}
+.scroll-animate.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.scroll-animate-left {
+  opacity: 0;
+  transform: translateX(-36px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+}
+.scroll-animate-left.animate-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+.scroll-animate-right {
+  opacity: 0;
+  transform: translateX(36px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+}
+.scroll-animate-right.animate-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+.delay-100 { transition-delay: 0.10s; }
+.delay-200 { transition-delay: 0.20s; }
+.delay-300 { transition-delay: 0.30s; }
+.delay-400 { transition-delay: 0.40s; }
+.delay-500 { transition-delay: 0.50s; }
+
+/* ─── Hero entry classes ─── */
+.hero-title {
+  animation: fadeInLeft 0.9s ease-out 0.2s both;
+}
+.hero-subtitle {
+  animation: fadeInLeft 0.9s ease-out 0.4s both;
+}
+.hero-desc {
+  animation: fadeInLeft 0.9s ease-out 0.6s both;
+}
+.hero-buttons {
+  animation: fadeInLeft 0.9s ease-out 0.8s both;
+}
+.hero-image {
+  animation: fadeInRight 1s ease-out 0.3s both;
+}
+
+/* ─── Floating animation class ─── */
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+/* ─── Glow ring ─── */
+.animate-glow {
+  animation: glowPulse 3.5s ease-in-out infinite;
+}
+
+/* ─── Shimmer gradient text ─── */
+.gradient-text {
+  background: linear-gradient(90deg, #22d3ee, #60a5fa, #a78bfa, #22d3ee);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ─── Typing cursor ─── */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  background: #22d3ee;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+  border-radius: 2px;
+}
+
+/* ─── Glowing card border ─── */
+.glow-card {
+  border: 1px solid rgba(34,211,238,0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.glow-card:hover {
+  border-color: rgba(34,211,238,0.55);
+  box-shadow: 0 0 28px rgba(34,211,238,0.15);
+  transform: translateY(-4px);
+}
+
+/* ─── Timeline ─── */
+.timeline-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 0 4px rgba(34,211,238,0.2), 0 0 16px rgba(34,211,238,0.4);
+  flex-shrink: 0;
+}
+.timeline-line {
+  width: 2px;
+  background: linear-gradient(to bottom, #22d3ee, #3b82f6, rgba(34,211,238,0.1));
+  flex-shrink: 0;
+  min-height: 100%;
+}
+
+/* ─── Stat count animation ─── */
+.stat-card {
+  animation: countIn 0.6s cubic-bezier(0.175,0.885,0.32,1.275) both;
+}
+
+/* ─── Skill badge hover ─── */
+.skill-badge {
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.skill-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 12px rgba(34,211,238,0.3);
+}
+
+/* ─── Online indicator ─── */
+@keyframes ping-custom {
+  0%   { transform: scale(1); opacity: 0.8; }
+  70%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.online-ping {
+  animation: ping-custom 1.5s ease-out infinite;
+}
+
+/* ─── Prose for project detail ─── */
+.prose h3 { @apply text-cyan-400 text-lg font-semibold mt-6 mb-3; }
+.prose ul  { @apply list-disc list-inside space-y-2 text-slate-300; }
+.prose p   { @apply text-slate-300 mb-4; }
+
+/* ─── Section divider ─── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(34,211,238,0.4), transparent);
+}
+
+/* ─── Nav active link ─── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #22d3ee;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─── Mobile menu animation ─── */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mobile-menu {
+  animation: slideDown 0.25s ease-out both;
+}
