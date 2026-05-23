@@ -50,33 +50,37 @@ html { scroll-behavior: smooth; }
 
 .cursor-dot {
   position: fixed;
+  top: 0; left: 0;
   width: 8px; height: 8px;
   background: #22d3ee;
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s;
+  /* position set via transform in JS — no CSS position transition */
+  will-change: transform;
+  transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
   box-shadow: 0 0 10px #22d3ee, 0 0 20px #22d3ee88;
 }
 .cursor-ring {
   position: fixed;
+  top: 0; left: 0;
   width: 36px; height: 36px;
   border: 1.5px solid rgba(34,211,238,0.6);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s cubic-bezier(.25,.46,.45,.94),
-              height 0.3s cubic-bezier(.25,.46,.45,.94),
-              border-color 0.3s,
-              left 0.08s linear,
-              top 0.08s linear;
+  /* position set via transform in JS — NO left/top CSS transition */
+  will-change: transform;
+  transition: width 0.25s cubic-bezier(.25,.46,.45,.94),
+              height 0.25s cubic-bezier(.25,.46,.45,.94),
+              border-color 0.25s,
+              background 0.25s,
+              opacity 0.2s;
 }
 .cursor-ring.hovering {
   width: 56px; height: 56px;
   border-color: rgba(139,92,246,0.8);
-  background: rgba(139,92,246,0.05);
+  background: rgba(139,92,246,0.06);
 }
 
 /* ═══════════════════════════════════════════════

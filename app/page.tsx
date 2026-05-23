@@ -80,25 +80,53 @@ function NeuralCanvas() {
 }
 
 /* ═══════════════════════════════════════════
-   CUSTOM CURSOR
+   CUSTOM CURSOR  (RAF + transform — zero lag)
 ═══════════════════════════════════════════ */
 function CustomCursor() {
   const dot  = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      if (dot.current)  { dot.current.style.left  = e.clientX + 'px'; dot.current.style.top  = e.clientY + 'px'; }
-      if (ring.current) { ring.current.style.left = e.clientX + 'px'; ring.current.style.top = e.clientY + 'px'; }
+    // Raw mouse position (updated instantly)
+    const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    // Ring position trails behind
+    const pos   = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    let rafId: number;
+
+    const onMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     };
-    const over = (e: MouseEvent) => {
+
+    const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
       const hoverable = el.closest('a,button,[role=button],.glow-card,.stat-card,.cert-card');
-      if (ring.current) ring.current.classList.toggle('hovering', !!hoverable);
+      ring.current?.classList.toggle('hovering', !!hoverable);
     };
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseover', over);
-    return () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseover', over); };
+
+    const tick = () => {
+      // Dot: instant follow
+      if (dot.current) {
+        dot.current.style.transform = `translate(${mouse.x - 4}px, ${mouse.y - 4}px)`;
+      }
+      // Ring: smooth ease-toward (lerp factor 0.12 = fast but no snap)
+      pos.x += (mouse.x - pos.x) * 0.12;
+      pos.y += (mouse.y - pos.y) * 0.12;
+      if (ring.current) {
+        ring.current.style.transform = `translate(${pos.x - 18}px, ${pos.y - 18}px)`;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseover', onOver, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onOver);
+    };
   }, []);
 
   return (
