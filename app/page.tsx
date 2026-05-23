@@ -619,7 +619,7 @@ export default function Portfolio() {
                   { icon:<Building size={15}/>,   label:'Current',   val:'Software Engineer @ AALMV' },
                   { icon:<Brain size={15}/>,      label:'Focus',     val:'Agentic AI & Backend Systems' },
                   { icon:<Zap size={15}/>,        label:'Education', val:'MS CS, UF — GPA 3.66' },
-                  { icon:<Mail size={15}/>,       label:'Email',     val:'bhargavreddy@myjobsmail.com' },
+                  { icon:<Mail size={15}/>,       label:'Email',     val:'bhargavreddybattu9@gmail.com' },
                 ].map(item => (
                   <div key={item.label} className="flex items-center gap-3 py-2 border-b border-slate-700/50 last:border-0">
                     <span className="text-cyan-400 shrink-0">{item.icon}</span>
@@ -637,15 +637,6 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* SKILL BARS */}
-          <div className="max-w-4xl mx-auto mt-14">
-            <div className="scroll-animate text-center mb-8">
-              <p className="text-slate-400 text-sm uppercase tracking-widest font-medium">Core Proficiency</p>
-            </div>
-            <div className="scroll-animate glow-card rounded-2xl p-8 grid grid-cols-1 md:grid-cols-2 gap-x-12">
-              {skillBars.map(s => <SkillBar key={s.label} label={s.label} pct={s.pct} />)}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -883,7 +874,7 @@ export default function Portfolio() {
             <div className="scroll-animate glow-card rounded-2xl p-8">
               <div className="space-y-3 mb-6">
                 {[
-                  { icon:<Mail size={18}/>, label:'Email', display:'bhargavreddy@myjobsmail.com', href:'mailto:bhargavreddy@myjobsmail.com' },
+                  { icon:<Mail size={18}/>, label:'Email', display:'bhargavreddybattu9@gmail.com', href:'mailto:bhargavreddybattu9@gmail.com' },
                   { icon:<Phone size={18}/>, label:'Phone', display:'+1 (352) 246-3474', href:'tel:+13522463474' },
                   { icon:<Linkedin size={18}/>, label:'LinkedIn', display:'linkedin.com/in/bhargavbattu25', href:'https://www.linkedin.com/in/bhargavbattu25' },
                   { icon:<Github size={18}/>, label:'GitHub', display:'github.com/19BEC0802', href:'https://github.com/19BEC0802' },
