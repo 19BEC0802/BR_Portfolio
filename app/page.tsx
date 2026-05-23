@@ -276,10 +276,10 @@ export default function Portfolio() {
   ];
 
   const stats = [
-    { label:'Years Experience', value:3,  suffix:'+', icon:'⚡' },
-    { label:'Projects Shipped', value:5,  suffix:'+', icon:'🚀' },
-    { label:'AI Systems Built', value:3,  suffix:'',  icon:'🤖' },
-    { label:'Cloud Deployments',value:10, suffix:'+', icon:'☁️' },
+    { label:'Years Experience', value:3,  suffix:'+' },
+    { label:'Projects Shipped', value:5,  suffix:'+' },
+    { label:'AI Systems Built', value:3,  suffix:''  },
+    { label:'Cloud Deployments',value:10, suffix:'+' },
   ];
 
   const skillBars = [
@@ -581,7 +581,6 @@ export default function Portfolio() {
           <div className="hero-stats grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
             {stats.map((s,i) => (
               <div key={s.label} className="stat-card p-5 text-center rounded-2xl" style={{ animationDelay:`${i*0.1}s` }}>
-                <div className="text-2xl mb-1">{s.icon}</div>
                 <div className="text-4xl font-black text-cyan-400 mb-1 tracking-tight">
                   <AnimatedCounter target={s.value} suffix={s.suffix} />
                 </div>
@@ -649,16 +648,22 @@ export default function Portfolio() {
           </div>
           <div className="max-w-4xl mx-auto">
             {experience.map((job,idx) => (
-              <div key={job.id} className="relative flex gap-6 mb-8">
-                <div className="flex flex-col items-center pt-2">
+              <div key={job.id} className="relative flex gap-6 mb-10">
+                {/* timeline spine */}
+                <div className="flex flex-col items-center pt-2 shrink-0">
                   <div className="timeline-dot" />
                   {idx < experience.length-1 && <div className="timeline-line w-0.5 flex-1 mt-3 min-h-20" />}
                 </div>
-                <div className={`scroll-animate delay-${(idx+1)*150} flex-1 mb-1`}>
-                  <div className="glow-card rounded-2xl"
-                    onMouseMove={handleTilt} onMouseLeave={resetTilt}
-                    style={{ transition:'transform 0.15s ease, border-color 0.35s, box-shadow 0.35s, transform 0.3s' }}>
-                    <div className="p-6">
+                {/* card — alternates slide direction */}
+                <div className={`${idx%2===0 ? 'scroll-animate-left' : 'scroll-animate-right'} flex-1 mb-1`}
+                  style={{ animationDelay:`${idx*120}ms` }}>
+                  <div className="relative glow-card rounded-2xl overflow-hidden group"
+                    style={{ transition:'box-shadow 0.35s, border-color 0.35s' }}>
+                    {/* glowing left accent bar */}
+                    <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl bg-gradient-to-b from-cyan-400 via-blue-500 to-violet-500 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                    {/* shimmer sweep on hover */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/4 to-transparent pointer-events-none" />
+                    <div className="p-6 pl-8">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                         <div>
                           <h3 className="text-xl font-black text-cyan-400">{job.company}</h3>
@@ -672,7 +677,8 @@ export default function Portfolio() {
                       </div>
                       <ul className="space-y-2.5 mb-5">
                         {job.bullets.map((b,i) => (
-                          <li key={i} className="flex gap-2.5 text-slate-300 text-sm leading-relaxed">
+                          <li key={i} className="flex gap-2.5 text-slate-300 text-sm leading-relaxed"
+                            style={{ animationDelay:`${i*60}ms` }}>
                             <span className="text-cyan-400 shrink-0 mt-0.5 font-bold">▸</span><span>{b}</span>
                           </li>
                         ))}
@@ -698,30 +704,45 @@ export default function Portfolio() {
             <div className="section-badge mx-auto w-fit mb-3">Tech Stack</div>
             <h2 className="text-4xl lg:text-5xl font-black">Skills & <span className="gradient-text">Technologies</span></h2>
           </div>
-          <div className="grid gap-3 max-w-5xl mx-auto">
-            {Object.entries(skillCategories).map(([cat,skills],idx) => (
-              <div key={cat} className={`scroll-animate delay-${Math.min((idx%4+1)*100,400)}`}>
-                <div className="glow-card rounded-2xl overflow-hidden">
-                  <button
-                    className="w-full px-6 py-4 flex justify-between items-center text-left"
-                    onClick={() => setExpandedSkill(expandedSkill===cat ? null : cat)}>
-                    <span className="text-white font-semibold text-sm">{cat}</span>
-                    <span className={`transition-transform duration-300 text-cyan-400 ${expandedSkill===cat?'rotate-180':''}`}>
-                      <ChevronDown size={18}/>
+          <div className="space-y-10 max-w-5xl mx-auto">
+            {Object.entries(skillCategories).map(([cat,skills],idx) => {
+              const catColors: Record<string,string> = {
+                'AI & Machine Learning':    'from-cyan-400 to-blue-500',
+                'Programming & Scripting':  'from-violet-400 to-purple-500',
+                'Backend & API Development':'from-blue-400 to-cyan-500',
+                'Frontend Development':     'from-pink-400 to-rose-500',
+                'Cloud & DevOps':           'from-orange-400 to-amber-500',
+                'Databases & Tools':        'from-green-400 to-teal-500',
+              };
+              const grad = catColors[cat] || 'from-cyan-400 to-blue-500';
+              return (
+                <div key={cat} className={`scroll-animate delay-${Math.min((idx+1)*100,500)}`}>
+                  {/* category header */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className={`text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full bg-gradient-to-r ${grad} text-white shadow-lg`}>
+                      {cat}
                     </span>
-                  </button>
-                  {expandedSkill===cat && (
-                    <div className="px-6 pb-5 border-t border-slate-700/40 pt-4">
-                      <div className="flex flex-wrap gap-2">
-                        {skills.map((skill,i) => (
-                          <span key={i} className="skill-badge text-xs px-3 py-1.5 rounded-full bg-cyan-900/20 border border-cyan-400/25 text-cyan-300 font-medium">{skill}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                    <div className={`flex-1 h-px bg-gradient-to-r ${grad} opacity-25`} />
+                  </div>
+                  {/* skills chips */}
+                  <div className="flex flex-wrap gap-2.5">
+                    {skills.map((skill,i) => (
+                      <span key={i}
+                        style={{ animationDelay:`${i*40}ms` }}
+                        className="skill-chip group relative inline-flex items-center gap-1.5 px-4 py-2 rounded-full
+                          bg-slate-800/70 border border-slate-700 text-slate-200 text-sm font-medium
+                          hover:border-cyan-400/60 hover:text-cyan-200 hover:bg-cyan-400/8
+                          hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cyan-400/15
+                          transition-all duration-200 cursor-default">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-br opacity-60 group-hover:opacity-100 transition-opacity"
+                          style={{ background:`linear-gradient(to bottom right, var(--cyan), var(--violet))` }} />
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -793,13 +814,20 @@ export default function Portfolio() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
             {certifications.map((cert,idx) => (
               <div key={idx} className={`scroll-animate-scale delay-${(idx%2+1)*150}`}>
-                <div className="cert-card h-full">
-                  <div className="cert-card-inner flex gap-4 items-start">
-                    <span className="text-3xl shrink-0">{cert.icon}</span>
-                    <div>
-                      <h3 className="text-slate-100 font-bold text-sm leading-snug mb-1">{cert.title}</h3>
-                      <p className="text-cyan-400 text-xs mb-2">{cert.org}</p>
-                      <div className="flex items-center gap-1.5 text-slate-500 text-xs"><Calendar size={10}/>{cert.date}</div>
+                <div className="cert-card h-full group">
+                  <div className="cert-card-inner flex gap-5 items-start">
+                    {/* numbered badge */}
+                    <div className="shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600
+                      flex items-center justify-center font-black text-sm text-white shadow-lg shadow-cyan-500/30
+                      group-hover:scale-110 group-hover:shadow-cyan-400/50 transition-all duration-300">
+                      {String(idx + 1).padStart(2,'0')}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-slate-100 font-bold text-sm leading-snug mb-1.5">{cert.title}</h3>
+                      <p className="text-cyan-400 text-xs font-medium mb-2 truncate">{cert.org}</p>
+                      <div className="flex items-center gap-1.5 text-slate-500 text-xs">
+                        <Calendar size={10}/>{cert.date}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -819,8 +847,12 @@ export default function Portfolio() {
           <div className="max-w-3xl mx-auto space-y-5">
             {education.map((edu,idx) => (
               <div key={idx} className={`scroll-animate delay-${(idx+1)*200}`}>
-                <div className="glow-card rounded-2xl p-6 flex gap-5 items-center" onMouseMove={handleTilt} onMouseLeave={resetTilt}>
-                  <span className="text-4xl shrink-0">{edu.icon}</span>
+                <div className="glow-card rounded-2xl p-6 flex gap-5 items-center group" style={{transition:'box-shadow 0.3s, border-color 0.3s'}}>
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600
+                    flex items-center justify-center font-black text-lg text-white shadow-lg shadow-cyan-500/25
+                    group-hover:scale-110 group-hover:shadow-cyan-400/50 transition-all duration-300">
+                    {idx+1 === 1 ? 'MS' : 'BS'}
+                  </div>
                   <div className="flex-1">
                     <h3 className="text-cyan-400 font-black text-xl mb-0.5">{edu.school}</h3>
                     <p className="text-white font-semibold text-sm">{edu.degree}</p>
