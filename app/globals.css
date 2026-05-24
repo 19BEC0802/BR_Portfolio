@@ -84,6 +84,25 @@ html { scroll-behavior: smooth; }
 }
 
 /* ═══════════════════════════════════════════════
+   MARQUEE / SKILLS TICKER
+═══════════════════════════════════════════════ */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════════
    BASE ANIMATIONS
 ═══════════════════════════════════════════════ */
 @keyframes fadeInUp    { from { opacity:0; transform:translateY(40px); }  to { opacity:1; transform:translateY(0); } }
