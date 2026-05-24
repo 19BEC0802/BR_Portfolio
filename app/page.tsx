@@ -698,61 +698,52 @@ export default function Portfolio() {
       </section>
 
       {/* ─── SKILLS ─── */}
-      <section id="skills" className="py-28 mesh-bg overflow-hidden">
+      <section id="skills" className="py-28 mesh-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="scroll-animate text-center mb-14">
             <div className="section-badge mx-auto w-fit mb-3">Tech Stack</div>
             <h2 className="text-4xl lg:text-5xl font-black">Skills & <span className="gradient-text">Technologies</span></h2>
           </div>
-        </div>
 
-        {/* Full-width marquee rows */}
-        <div className="space-y-6">
-          {Object.entries(skillCategories).map(([cat, skills], idx) => {
-            const catColors: Record<string,{pill:string; dot:string; border:string}> = {
-              'AI & Machine Learning':    { pill:'from-cyan-400 to-blue-500',    dot:'bg-cyan-400',   border:'border-cyan-400/30' },
-              'Programming & Scripting':  { pill:'from-violet-400 to-purple-500',dot:'bg-violet-400', border:'border-violet-400/30' },
-              'Backend & API Development':{ pill:'from-blue-400 to-cyan-500',    dot:'bg-blue-400',   border:'border-blue-400/30' },
-              'Frontend Development':     { pill:'from-pink-400 to-rose-500',    dot:'bg-pink-400',   border:'border-pink-400/30' },
-              'Cloud & DevOps':           { pill:'from-orange-400 to-amber-500', dot:'bg-orange-400', border:'border-orange-400/30' },
-              'Databases & Tools':        { pill:'from-green-400 to-teal-500',   dot:'bg-green-400',  border:'border-green-400/30' },
-            };
-            const c = catColors[cat] || catColors['AI & Machine Learning'];
-            const reversed = idx % 2 !== 0;
-            // triple the list so the loop is seamless
-            const repeated = [...skills, ...skills, ...skills];
-
-            return (
-              <div key={cat} className="scroll-animate">
-                {/* category label */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3">
-                  <span className={`text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full bg-gradient-to-r ${c.pill} text-white shadow-lg`}>
-                    {cat}
-                  </span>
-                </div>
-
-                {/* scrolling track */}
-                <div className="relative">
-                  {/* fade edges */}
-                  <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#080c1e] to-transparent z-10 pointer-events-none" />
-                  <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#080c1e] to-transparent z-10 pointer-events-none" />
-
-                  <div className="marquee-track" style={{ animationDirection: reversed ? 'reverse' : 'normal' }}>
-                    {repeated.map((skill, i) => (
+          <div className="space-y-10 max-w-6xl mx-auto">
+            {Object.entries(skillCategories).map(([cat, skills], catIdx) => {
+              const catColors: Record<string,{pill:string; dot:string; glow:string; border:string}> = {
+                'AI & Machine Learning':    { pill:'from-cyan-400 to-blue-500',    dot:'bg-cyan-400',   glow:'hover:shadow-cyan-400/30',   border:'hover:border-cyan-400/60' },
+                'Programming & Scripting':  { pill:'from-violet-400 to-purple-500',dot:'bg-violet-400', glow:'hover:shadow-violet-400/30', border:'hover:border-violet-400/60' },
+                'Backend & API Development':{ pill:'from-blue-400 to-cyan-500',    dot:'bg-blue-400',   glow:'hover:shadow-blue-400/30',   border:'hover:border-blue-400/60' },
+                'Frontend Development':     { pill:'from-pink-400 to-rose-500',    dot:'bg-pink-400',   glow:'hover:shadow-pink-400/30',   border:'hover:border-pink-400/60' },
+                'Cloud & DevOps':           { pill:'from-orange-400 to-amber-500', dot:'bg-orange-400', glow:'hover:shadow-orange-400/30', border:'hover:border-orange-400/60' },
+                'Databases & Tools':        { pill:'from-green-400 to-teal-500',   dot:'bg-green-400',  glow:'hover:shadow-green-400/30',  border:'hover:border-green-400/60' },
+              };
+              const c = catColors[cat] || catColors['AI & Machine Learning'];
+              return (
+                <div key={cat} className="scroll-animate" style={{ animationDelay:`${catIdx*80}ms` }}>
+                  {/* category header */}
+                  <div className="flex items-center gap-4 mb-5">
+                    <span className={`text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full bg-gradient-to-r ${c.pill} text-white shadow-lg shrink-0`}>
+                      {cat}
+                    </span>
+                    <div className={`flex-1 h-px bg-gradient-to-r ${c.pill} opacity-20`} />
+                  </div>
+                  {/* chips — staggered pop-in */}
+                  <div className="flex flex-wrap gap-3">
+                    {skills.map((skill, i) => (
                       <span key={i}
-                        className={`marquee-chip inline-flex items-center gap-2 px-5 py-2.5 rounded-full
-                          bg-slate-800/80 border ${c.border} text-slate-200 text-sm font-medium whitespace-nowrap
-                          hover:bg-slate-700/90 hover:text-white hover:scale-105 hover:shadow-lg
-                          transition-all duration-200 cursor-default mx-2`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${c.dot} opacity-70`} />
+                        className={`skill-pop border border-slate-700 bg-slate-800/70 text-slate-200
+                          text-sm font-medium px-4 py-2 rounded-full inline-flex items-center gap-2
+                          hover:-translate-y-1 hover:bg-slate-700/90 hover:text-white
+                          hover:shadow-lg ${c.glow} ${c.border}
+                          transition-all duration-250 cursor-default`}
+                        style={{ animationDelay: `${catIdx * 80 + i * 55}ms` }}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${c.dot} opacity-60`} />
                         {skill}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
